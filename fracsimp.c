@@ -6,12 +6,12 @@ typedef struct {
 	int numerador, denominador;
 } FRACAO;
 
-FRACAO simp (FRACAO som) {
+FRACAO simp(FRACAO som) {
 	int i;
 
 	for (i=2; i <= 9; i++) {
 		if ((som.numerador % i == 0) && (som.denominador % i == 0)) {
-			for (; ((som.numerador % i == 0) && (som.denominador % i == 0)); ) {
+			while(((som.numerador % i == 0) && (som.denominador % i == 0))) {
 				som.numerador /= i;
 				som.denominador /= i;
 			}

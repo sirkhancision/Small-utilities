@@ -15,7 +15,8 @@ int main(int argc, char *argv[]) {
 		printf("Expressão incompleta ou formato incorreto.\n");
 		return 1;
 	}
-	else if (argc > 3) {
+
+    else if (argc > 3) {
 		printf("Expressão possui argumentos de mais.\n");
 		return 1;
 	}
