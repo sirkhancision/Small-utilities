@@ -8,7 +8,7 @@ REPO=https://github.com/torvalds/linux
 # gets full tags list from REPO, in ascending order, then isolates the last line (the latest tag)
 # and isolates the string starting at the 12th character from the second word, which so happens
 # to be where the actual tag name starts
-tag=$(git ls-remote $REPO | sort -Vk2 | tail -1 | awk '{print $2}' | awk '{ print substr ($0, 12 ) }')
+tag=$(git ls-remote $REPO | sort -Vk2 | tail -1 | awk '{print substr ($2, 12 )}')
 garbage='^{}'
 tmpfile="/tmp/linux-latest"
 
