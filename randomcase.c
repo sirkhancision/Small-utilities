@@ -35,7 +35,6 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    ;
     while((c = fgetc(texto)) != EOF) {
         /* if rand = 0, then do nothing */
         if ((rand() % (2 + 1 - 0) + 0) == 1 && (c >= 65 && c <= 90))
