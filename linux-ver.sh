@@ -2,7 +2,9 @@
 
 # this sleep command is done in order for the computer to properly
 # connect to the internet before anything
-sleep 1m
+if [[ -f "$tmpfile" ]]; then
+  sleep 1m
+fi
 
 REPO=https://github.com/torvalds/linux
 # gets full tags list from REPO, in ascending order, then isolates the last line (the latest tag)
@@ -20,7 +22,7 @@ fi
 # in case the file holding the latest version name doesn't exist, it's created
 # if the latest release also doesn't match the current tag name, it overwrites its value
 # at last, if none of these apply, the script is ended
-if [[ $(! test -f "$tmpfile") ]] || [[ "$(cat $tmpfile)" != "$tag" ]]; then
+if [[ ((! -f "$tmpfile")) || ((-f $tmpfile && "$(cat $tmpfile)" != "$tag")) ]]; then
   echo "$tag" > "$tmpfile"
 else
   exit 1
