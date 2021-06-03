@@ -1,5 +1,7 @@
 # you need run this script only once for it to create the tmpfile
 
+tmpfile="/tmp/linux-latest"
+
 # this sleep command is done in order for the computer to properly
 # connect to the internet before anything
 if [[ -f "$tmpfile" ]]; then
@@ -12,7 +14,6 @@ REPO=https://github.com/torvalds/linux
 # to be where the actual tag name starts
 tag=$(git ls-remote $REPO | sort -Vk2 | tail -1 | awk '{print substr ($2, 12 )}')
 garbage='^{}'
-tmpfile="/tmp/linux-latest"
 
 # checks if the tag name has that weird substring, and if so, removes it
 if [[ "$tag" == *"$garbage"* ]]; then
