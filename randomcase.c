@@ -3,6 +3,8 @@
 #include <string.h>
 #include <time.h>
 
+void rndcase(char input);
+
 int main(int argc, char *argv[]) {
   int c;
   FILE *texto;
@@ -20,37 +22,38 @@ int main(int argc, char *argv[]) {
            "texto\n\n"
            "Argumentos possíveis:\n\"-h\"/\"--help\" - Exibe esse texto de "
            "ajuda.\n"
-           "\"-t\"/\"--type\" - Recebe a entrada do teclado, ao invés de por "
+           "\"-t\"/\"--stdin\" - Recebe a entrada do teclado, ao invés de por "
            "um arquivo.\n");
     return 0;
   }
 
-  else if ((strcmp(argv[1], "-t")) == 0 || (strcmp(argv[1], "--type")) == 0) {
-    while ((c = getchar()) && (c != EOF)) {
-      /* if rand = 0, then do nothing */
-      if ((rand() % (2 + 1 - 0) + 0) == 1 && (c >= 65 && c <= 90))
-        c += 32;
-      else if ((rand() % (2 + 1 - 0) + 0) == 1 && (c >= 97 && c <= 122))
-        c -= 32;
-      putchar(c);
-    }
+  /* Input from stdin */
+  else if ((strcmp(argv[1], "-t")) == 0 || (strcmp(argv[1], "--stdin")) == 0) {
+    while ((c = getchar()) && (c != EOF))
+      rndcase(c);
     return 0;
   }
 
+  /* Input from file */
   if (!(texto = fopen(argv[1], "r"))) {
     printf("Arquivo ou diretório inexistente.\n");
     return 1;
   }
 
-  while ((c = fgetc(texto)) != EOF) {
-    /* if rand = 0, then do nothing */
-    if ((rand() % (2 + 1 - 0) + 0) == 1 && (c >= 65 && c <= 90))
-      c += 32;
-    else if ((rand() % (2 + 1 - 0) + 0) == 1 && (c >= 97 && c <= 122))
-      c -= 32;
-    putchar(c);
-  }
+  while ((c = fgetc(texto)) != EOF)
+    rndcase(c);
   fclose(texto);
 
   return 0;
+}
+
+void rndcase(char input) {
+  /* if rand = 0, then do nothing */
+  if ((rand() % (2 + 1 - 0) + 0) == 1 &&
+      (input >= 65 && input <= 90)) /* 65 = a; 90 = z */
+    input += 32;
+  else if ((rand() % (2 + 1 - 0) + 0) == 1 &&
+           (input >= 97 && input <= 122)) /* 97 = A; 122 = Z */
+    input -= 32;
+  putchar(input);
 }
