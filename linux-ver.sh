@@ -1,6 +1,6 @@
 # you need run this script only once for it to create the tmpfile
 
-tmpfile="/tmp/linux-latest"
+tmpfile="$HOME/.linux-latest"
 
 # this sleep command is done in order for the computer to properly
 # connect to the internet before anything
