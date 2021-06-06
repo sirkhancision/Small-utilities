@@ -50,10 +50,10 @@ int main(int argc, char *argv[]) {
 void rndcase(char input) {
   /* if rand = 0, then do nothing */
   if ((rand() % (2 + 1 - 0) + 0) == 1 &&
-      (input >= 65 && input <= 90)) /* 65 = a; 90 = z */
-    input += 32;
+      (input >= 'a' && input <= 'z'))
+    input += 'A' - 'a';
   else if ((rand() % (2 + 1 - 0) + 0) == 1 &&
-           (input >= 97 && input <= 122)) /* 97 = A; 122 = Z */
-    input -= 32;
+           (input >= 'A' && input <= 'Z'))
+    input -= 'A' - 'a';
   putchar(input);
 }
