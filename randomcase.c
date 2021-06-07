@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,7 +17,7 @@ int main(int argc, char *argv[]) {
   }
 
   else if (argc > 1 &&
-           ((strcmp(argv[1], "-h")) == 0 || (strcmp(argv[1], "--help")) == 0)) {
+           (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)) {
     printf("Conversor de randomcase\n"
            "Randomiza a ordem de maiusculas e minusculas em um arquivo de "
            "texto\n\n"
@@ -28,7 +29,7 @@ int main(int argc, char *argv[]) {
   }
 
   /* Input from stdin */
-  else if ((strcmp(argv[1], "-t")) == 0 || (strcmp(argv[1], "--stdin")) == 0) {
+  else if (strcmp(argv[1], "-t") == 0 || strcmp(argv[1], "--stdin") == 0) {
     while ((c = getchar()) && (c != EOF))
       rndcase(c);
     return 0;
@@ -48,12 +49,10 @@ int main(int argc, char *argv[]) {
 }
 
 void rndcase(char input) {
-  /* if rand = 0, then do nothing */
-  if ((rand() % (2 + 1 - 0) + 0) == 1 &&
-      (input >= 'a' && input <= 'z'))
-    input += 'A' - 'a';
-  else if ((rand() % (2 + 1 - 0) + 0) == 1 &&
-           (input >= 'A' && input <= 'Z'))
-    input -= 'A' - 'a';
+  /* if rand = 0, do nothing */
+  if (((rand() % (2 + 1 - 0) + 0) == 1) && islower(input))
+    toupper(input);
+  else if (((rand() % (2 + 1 - 0) + 0) == 1) && isupper(input))
+    tolower(input);
   putchar(input);
 }
