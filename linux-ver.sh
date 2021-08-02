@@ -1,12 +1,8 @@
+#!/bin/sh
+
 # you need run this script only once for it to create the tmpfile
 
 tmpfile="$HOME/.linux-latest"
-
-# this sleep command is done in order for the computer to properly
-# connect to the internet before anything
-if [[ -f "$tmpfile" ]]; then
-  sleep 1m
-fi
 
 REPO=https://github.com/torvalds/linux
 # gets full tags list from REPO, in ascending order, then isolates the last line (the latest tag)
