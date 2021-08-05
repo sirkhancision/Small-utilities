@@ -13,16 +13,16 @@ garbage='^{}'
 
 # checks if the tag name has that weird substring, and if so, removes it
 if [[ "$tag" == *"$garbage"* ]]; then
-  tag=$(echo "$tag" | tr -d "$garbage")
+	tag=$(echo "$tag" | tr -d "$garbage")
 fi
 
 # in case the file holding the latest version name doesn't exist, it's created
 # if the latest release also doesn't match the current tag name, it overwrites its value
 # at last, if none of these apply, the script is ended
 if [[ ((! -f "$tmpfile")) || ((-f $tmpfile && "$(cat $tmpfile)" != "$tag")) ]]; then
-  echo "$tag" > "$tmpfile"
+	echo "$tag" > "$tmpfile"
 else
-  exit 1
+	exit 1
 fi
 
 # sends a notification with the current Linux version tag, lasting for 20s and using the tux icon

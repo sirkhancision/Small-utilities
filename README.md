@@ -10,4 +10,6 @@ These are simply some small programs that I wrote to perform basic actions on my
 >
 > `randomcase.c`: C program to randomize characters' case in a text file, or through stdin.
 >
-> `linux-ver.sh`: ZSH (or bash, but you'd need to include `#!/bin/bash` at the first line) script to notify you when a new Linux release gets uploaded to Github.
+> `linux-ver.sh`: Bash script to notify you when a new Linux release gets uploaded to Github.
+
+> `update-citra-nightly.sh`: Bash script to download the newest Citra Nightly linux release on Github.
