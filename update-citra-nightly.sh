@@ -17,7 +17,7 @@ version=${release_url##*/}
 echo Found latest version: Citra-$version
 
 # Determine download URL and install path
-filename=$(curl -s https://api.github.com/repos/$REPO/releases/assets/41490219 | grep "name.*.tar.xz" | cut -d : -f 2,3 | tr -d '\", ')
+filename=$(curl -s https://api.github.com/repos/$REPO/releases/latest | grep "name.*.tar.xz" | cut -d : -f 2,3 | tr -d '\", ')
 download_url=https://github.com/$REPO/releases/download/$version/$filename
 install_dir=$CITRA_DIR/$(echo $filename | cut -c 1-28)
 
