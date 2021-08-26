@@ -3,26 +3,23 @@
 #include <string.h>
 
 typedef struct {
-	int numerador, denominador;
+	int numerator, denominator;
 } FRACAO;
 
-FRACAO simp(FRACAO som) {
+FRACAO simplify(FRACAO input) {
 	int i;
 	for (i = 2; i <= 9; i++) {
-		/* Checks if both numbers are divisible by 'i' */
-		/* If not, the loop increments 'i' and it tries again */
-		if ((som.numerador % i == 0) && (som.denominador % i == 0)) {
-			while (((som.numerador % i == 0) && (som.denominador % i == 0))) {
-				som.numerador /= i;
-				som.denominador /= i;
-			}
+		/* Checks if they're divisible by i, from 2 to 9 */
+		while (((input.numerator % i == 0) && (input.denominator % i == 0))) {
+			input.numerator /= i;
+			input.denominator /= i;
 		}
 	}
-	return som;
+	return input;
 }
 
 int main(int argc, char *argv[]) {
-	FRACAO frac;
+	FRACAO fraction;
 	
 	/* Implementador de ajuda no programa */
 	if (argc > 1 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)) {
@@ -34,15 +31,20 @@ int main(int argc, char *argv[]) {
 	else if (argc < 4) {
 		printf("Expressão incompleta ou formato incorreto.\n");
 		return 1;
-	} else if (argc > 4) {
+	} 
+	else if (argc > 4) {
 		printf("Expressão possui argumentos de mais.\n");
-		return 1;
+		return 2;
 	}
 
-	frac.numerador = atoi(argv[1]);
-	frac.denominador = atoi(argv[3]);
-	frac = simp(frac);
-	printf("Fração simplificada: %d / %d\n", frac.numerador, frac.denominador);
+	fraction.numerator = atoi(argv[1]);
+	/* Checa se o denominador é igual a 0 */
+	if ((fraction.denominator = atoi(argv[3])) == 0) {
+		printf("Divisão por zero não permitida.\n");
+		return 3;
+	}
+	fraction = simplify(fraction);
+	printf("Fração simplificada: %d / %d\n", fraction.numerator, fraction.denominator);
 
 	return 0;
 }

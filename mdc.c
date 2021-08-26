@@ -2,10 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* Euclidean algorithm */
 int mdc(int x, int y) {
 	int tmp;
+	if (y > x) {
+		/* Ordena de forma que x seja maior que y,
+		 * caso o valor de y seja maior que x */
+		tmp = x;
+		x = y;
+		y = tmp;
+	}
+
+	/* Euclidean algorithm */
 	while (x % y != 0) {
+		/* Troca os valores de x e y, e realiza
+		 * a operação x mod y */
 		tmp = x;
 		x = y;
 		y = (tmp % y);
@@ -14,7 +24,7 @@ int mdc(int x, int y) {
 }
 
 int main(int argc, char *argv[]) {
-	int x, y, tmp, result;
+	int x, y, result;
 
 	/* Implementador de ajuda no programa */
 	if (argc > 1 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)) {
@@ -26,18 +36,14 @@ int main(int argc, char *argv[]) {
 	else if (argc < 3) {
 		printf("Expressão incompleta ou formato incorreto.\n");
 		return 1;
-	} else if (argc > 3) {
+	} 
+	else if (argc > 3) {
 		printf("Expressão possui argumentos de mais.\n");
 		return 1;
 	}
 
 	x = atoi(argv[1]);
 	y = atoi(argv[2]);
-	if (y > x) {
-		tmp = x;
-		x = y;
-		y = tmp;
-	}
 	printf("MDC: %d\n", result = mdc(x, y));
 
 	return 0;
