@@ -4,7 +4,7 @@
 #include <string.h>
 #include <time.h>
 
-void rndcase(char input) {
+static void rndcase(int input) {
 	int random;
 	/* from 0 to 1 */
 	random = rand() % 2;
@@ -15,13 +15,15 @@ void rndcase(char input) {
 	/* maybe turn upper-case into lower-case */
 	else if (random == 1 && isupper(input))
 		input = tolower(input);
-	putchar(input);
+	if (putchar(input) == EOF) {
+		printf("Falha ao imprimir caractere.\n");
+	} 
 }
 
 int main(int argc, char *argv[]) {
 	int c;
 	FILE *arquivo;
-	srand(time(NULL));
+	srand((unsigned int) time(0));
 
 	if (argc == 1) {
 		printf("Argumentos insuficientes.\n");
@@ -49,7 +51,10 @@ int main(int argc, char *argv[]) {
 
 	while ((c = fgetc(arquivo)) != EOF)
 		rndcase(c);
-	fclose(arquivo);
+	if (fclose(arquivo) == EOF) {
+		printf("Falha ao fechar o arquivo.\n");
+		return 3;
+	}
 
 	return 0;
 }

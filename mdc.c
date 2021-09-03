@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int mdc(int x, int y) {
+static int mdc(int x, int y) {
 	int tmp;
 	if (y > x) {
 		/* Ordena de forma que x seja maior que y,
