@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
 	double cl, mhz;
 	char* endptr;
 
 	/* Implementador de ajuda no programa */
 	if (argc > 1 && (strcmp(argv[1], "-h") == 0 ||
-	strcmp(argv[1], "--help") == 0)) {
+		strcmp(argv[1], "--help") == 0)) {
 		printf("Calculadora de Clock Speed de memórias RAM\n"
 		"Formato: Ciclo-CL MHz-RAM (16 3200)\n\n"
 		"Argumentos possíveis: \"-h\"/\"--help\" - Exibe esse texto de ajuda.\n");

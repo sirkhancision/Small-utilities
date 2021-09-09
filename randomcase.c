@@ -20,16 +20,17 @@ static void rndcase(int input) {
 	} 
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
 	int c;
-	FILE *arquivo;
+	FILE* arquivo;
 	srand((unsigned int) time(0));
 
 	if (argc == 1) {
 		printf("Argumentos insuficientes.\n");
 		return 1;
 	}
-	else if (argc > 1 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)) {
+	else if (argc > 1 && (strcmp(argv[1], "-h") == 0 ||
+		strcmp(argv[1], "--help") == 0)) {
 		printf("Conversor de randomcase\n"
 		"Randomiza a ordem de maiusculas e minusculas em um arquivo de texto\n\n"
 		"Argumentos possíveis:\n\"-h\"/\"--help\" - Exibe esse texto de ajuda.\n"
@@ -37,7 +38,8 @@ int main(int argc, char *argv[]) {
 		return 0;
 	}
 	/* Input from stdin */
-	else if (strcmp(argv[1], "-t") == 0 || strcmp(argv[1], "--stdin") == 0) {
+	else if (strcmp(argv[1], "-t") == 0 ||
+		strcmp(argv[1], "--stdin") == 0) {
 		while ((c = getchar()) != EOF)
 			rndcase(c);
 		return 0;

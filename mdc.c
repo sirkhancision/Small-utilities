@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-static int mdc(int x, int y) {
-	int tmp;
+static unsigned long mdc(unsigned long x, unsigned long y) {
+	unsigned long tmp;
 	if (y > x) {
 		/* Ordena de forma que x seja maior que y,
 		 * caso o valor de y seja maior que x */
@@ -23,11 +23,13 @@ static int mdc(int x, int y) {
 	return y;
 }
 
-int main(int argc, char *argv[]) {
-	int x, y, result;
+int main(int argc, char* argv[]) {
+	unsigned long x, y, result;
+	char* endptr;
 
 	/* Implementador de ajuda no programa */
-	if (argc > 1 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)) {
+	if (argc > 1 && (strcmp(argv[1], "-h") == 0 ||
+		strcmp(argv[1], "--help") == 0)) {
 		printf("Calculadora de MDC (Máximo Divisor Comum)\n"
 		"Formato: x y (Exemplo: 10 5)\n\n"
 		"Argumentos possíveis: \"-h\"/\"--help\" - Exibe esse texto de ajuda.\n");
@@ -42,9 +44,9 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	x = atoi(argv[1]);
-	y = atoi(argv[2]);
-	printf("MDC: %d\n", result = mdc(x, y));
+	x = strtoul(argv[1], &endptr, 10);
+	y = strtoul(argv[2], &endptr, 10);
+	printf("MDC: %lu\n", result = mdc(x, y));
 
 	return 0;
 }
