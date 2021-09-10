@@ -6,6 +6,7 @@
 
 static void rndcase(int input) {
 	int random;
+	
 	/* from 0 to 1 */
 	random = rand() % 2;
 
@@ -15,6 +16,7 @@ static void rndcase(int input) {
 	/* maybe turn upper-case into lower-case */
 	else if (random == 1 && isupper(input))
 		input = tolower(input);
+		
 	if (putchar(input) == EOF) {
 		printf("Falha ao imprimir caractere.\n");
 	} 

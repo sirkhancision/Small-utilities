@@ -8,6 +8,7 @@ typedef struct {
 
 static FRACAO simplify(FRACAO input) {
 	int i;
+	
 	for (i = 2; i <= 9; i++) {
 		/* Checks if they're divisible by i, from 2 to 9 */
 		while ((input.numerator % i == 0) &&
