@@ -1,5 +1,4 @@
-use std::io;
-use std::str;
+use std::{io, str::from_utf8};
 
 struct Fraction {
     numerator: Option<i128>,
@@ -24,7 +23,7 @@ impl Fraction {
                 }
             }
         } else {
-            panic!("Não é possível simplificar fração nula.")
+            println!("Não é possível simplificar fração nula.")
         }
     }
 
@@ -39,14 +38,15 @@ impl Fraction {
 
         for (i, &element) in string_bytes.iter().enumerate() {
             if element == b'/' {
-                let numerator_result: i128 = str::from_utf8(&string_bytes[..i])
-                    .expect("Erro ao converter numerador para string.")
+                let numerator_result: i128 = from_utf8(&string_bytes[..i])
+                    .expect("Erro ao converter numerador para string")
                     .parse()
-                    .expect("Numerador não é inteiro.");
-                let denominator_result: i128 = str::from_utf8(&string_bytes[i + 1..])
-                    .expect("Erro ao converter denominador para string.")
+                    .expect("Numerador não é inteiro");
+
+                let denominator_result: i128 = from_utf8(&string_bytes[i + 1..])
+                    .expect("Erro ao converter denominador para string")
                     .parse()
-                    .expect("Denominador não é inteiro.");
+                    .expect("Denominador não é inteiro");
 
                 fraction.numerator = Some(numerator_result);
                 fraction.denominator = Some(denominator_result);
@@ -55,30 +55,31 @@ impl Fraction {
             }
         }
 
-        return fraction;
+        fraction
     }
 }
 
 fn main() {
-    let mut frac1: Fraction;
     let mut input = String::new();
 
     println!("Digite a fração a ser simplificada:");
 
-    io::stdin()
-        .read_line(&mut input)
-        .expect("Erro ao ler fração.");
+    if let Err(e) = io::stdin().read_line(&mut input) {
+        println!("Erro: {}", e)
+    }
 
-    frac1 = Fraction::slice_fraction(input);
+    let mut frac = Fraction::slice_fraction(input);
 
-    if frac1.denominator == Some(0) {
-        panic!("Insira uma fração válida: divisão por zero não permitida.")
+    if frac.denominator == Some(0) {
+        println!("Insira uma fração válida: divisão por zero não permitida.")
     } else {
-        frac1.simplify();
-        println!(
-            "Fração simplificada: {}/{}",
-            frac1.numerator.unwrap(),
-            frac1.denominator.unwrap()
-        )
+        frac.simplify();
+        match frac {
+            Fraction {
+                numerator: Some(x),
+                denominator: Some(y),
+            } => println!("Fração simplificada: {}/{}", x, y),
+            _ => println!("Erro ao imprimir fração simplificada."),
+        }
     }
 }

@@ -1,38 +1,35 @@
-use std::io;
-use std::str;
-use std::mem;
+use std::{io, mem::swap, str::from_utf8};
 
 fn main() {
-    let result: u128;
     let mut input = String::new();
 
     println!("Digite dois números para calcular o MDC:");
 
-    io::stdin()
-        .read_line(&mut input)
-        .expect("Erro ao ler entrada.");
+    if let Err(e) = io::stdin().read_line(&mut input) {
+        println!("Erro: {}", e)
+    }
     let input = slice_input(&input);
 
     if let (0, 0) = input {
-        panic!("Entrada inválida.")
+        println!("Entrada inválida.")
     } else {
-        result = mdc(input);
+        let result = mdc(input);
         println!("MDC: {}", result)
     }
 }
 
 fn mdc(mut input: (u128, u128)) -> u128 {
     if input.1 > input.0 {
-        mem::swap(&mut input.0, &mut input.1);
+        swap(&mut input.0, &mut input.1);
     }
 
     // Euclidean algorithm
     while input.0 % input.1 != 0 {
-        mem::swap(&mut input.0, &mut input.1);
+        swap(&mut input.0, &mut input.1);
         input.1 %= input.0;
     }
 
-    return input.1
+    input.1
 }
 
 // Slices the input string and outputs a u128 tuple, with
@@ -43,20 +40,19 @@ fn slice_input(input_string: &str) -> (u128, u128) {
 
     for (i, &element) in string_bytes.iter().enumerate() {
         if element == b' ' {
-            let x: u128 = str::from_utf8(&string_bytes[..i])
+            let x: u128 = from_utf8(&string_bytes[..i])
                 .expect("Erro ao converter x para string.")
                 .parse()
-                .expect("x não é inteiro.");
-            let y: u128 = str::from_utf8(&string_bytes[i + 1..])
+                .expect("x não é inteiro");
+            let y: u128 = from_utf8(&string_bytes[i + 1..])
                 .expect("Erro ao converter y para string.")
                 .parse()
-                .expect("y não é inteiro.");
+                .expect("y não é inteiro");
 
             input = (x, y);
-
             break;
         }
     }
 
-    return input
+    input
 }
