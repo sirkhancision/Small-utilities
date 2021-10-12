@@ -1,26 +1,25 @@
-use std::{io, mem::swap, str::from_utf8};
+use std::{io, mem::swap};
 
 fn main() {
     let mut input = String::new();
 
     println!("Digite dois números para calcular o MDC:");
 
-    if let Err(e) = io::stdin().read_line(&mut input) {
-        println!("Erro: {}", e)
-    }
-    let input = slice_input(&input);
+    io::stdin()
+        .read_line(&mut input)
+        .expect("erro ao ler texto da entrada padrão");
+    let input = input.trim();
 
-    if let (0, 0) = input {
-        println!("Entrada inválida.")
-    } else {
-        let result = mdc(input);
-        println!("MDC: {}", result)
+    if !input.is_empty() {
+        println!("MDC: {}", mdc(slice_input(input)));
     }
 }
 
 fn mdc(mut input: (u128, u128)) -> u128 {
     if input.1 > input.0 {
         swap(&mut input.0, &mut input.1);
+    } else if input.1 == 0 && input.0 == 0 {
+        panic!("entrada inválida");
     }
 
     // Euclidean algorithm
@@ -35,24 +34,14 @@ fn mdc(mut input: (u128, u128)) -> u128 {
 // Slices the input string and outputs a u128 tuple, with
 // the two numbers for calculating the GDC
 fn slice_input(input_string: &str) -> (u128, u128) {
-    let string_bytes = input_string.trim().as_bytes();
-    let mut input: (u128, u128) = (0, 0);
+    for (i, char) in input_string.chars().enumerate() {
+        if char.is_whitespace() {
+            let x = input_string[..i].parse().expect("x não é inteiro");
+            let y = input_string[i + 1..].parse().expect("y não é inteiro");
 
-    for (i, &element) in string_bytes.iter().enumerate() {
-        if element == b' ' {
-            let x: u128 = from_utf8(&string_bytes[..i])
-                .expect("Erro ao converter x para string.")
-                .parse()
-                .expect("x não é inteiro");
-            let y: u128 = from_utf8(&string_bytes[i + 1..])
-                .expect("Erro ao converter y para string.")
-                .parse()
-                .expect("y não é inteiro");
-
-            input = (x, y);
-            break;
+            return (x, y);
         }
     }
 
-    input
+    panic!("não há espaço separando primeiro número do segundo");
 }

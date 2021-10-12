@@ -1,27 +1,27 @@
-use rand;
+use rand::random;
 use std::io;
 
 fn main() {
     println!("Escreva o texto para randomcase:");
 
     let mut sentence = String::new();
-    if let Err(e) = io::stdin().read_line(&mut sentence) {
-        println!("Erro: {}", e)
-    }
+    io::stdin()
+        .read_line(&mut sentence)
+        .expect("erro ao ler texto da entrada padrão");
+    let sentence = sentence.trim();
 
-    if ! sentence.trim().is_empty() {
-        for element in sentence.chars() {
-            if element.is_alphabetic() && rand::random() {
-                if element.is_lowercase() {
-                    print!("{}", element.to_uppercase());
-                } else if element.is_uppercase() {
-                    print!("{}", element.to_lowercase());
+    if !sentence.is_empty() {
+        for char in sentence.chars() {
+            if char.is_alphabetic() && random() {
+                if char.is_lowercase() {
+                    print!("{}", char.to_uppercase());
+                } else if char.is_uppercase() {
+                    print!("{}", char.to_lowercase());
                 }
             } else {
-                print!("{}", element);
+                print!("{}", char);
             }
         }
-    } else {
-        println!("String vazia na entrada, saindo.")
+        print!("\n");
     }
 }
