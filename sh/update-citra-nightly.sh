@@ -57,7 +57,7 @@ InstallCitraNightly() {
 # Check if there are other Citra Nightly versions installed
 # If so, asks if you want to delete any
 Wanttodelete() {
-	read -r -p "Do you want to delete intalled versions? <y/n> " prompt
+	read -r -p "Do you want to delete any installed versions? <y/n> " prompt
 	if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]; then
 		DeleteCitraCheck
 	fi
