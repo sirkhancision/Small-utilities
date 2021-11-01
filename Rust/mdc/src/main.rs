@@ -7,7 +7,7 @@ fn main() {
     if args.len() == 2 && args.iter().any(|h| h == "-h" || h == "--help") {
         println!(
             "Calculadora de MDC (Máximo Divisor Comum)\n\
- Formato: x y (Exemplo: 10 5)\n
+Formato: x y (Exemplo: 10 5)\n
 Argumentos possíveis: \"-h\"/\"--help\" - Exibe esse texto de ajuda."
         );
     } else if args.len() == 3 {
