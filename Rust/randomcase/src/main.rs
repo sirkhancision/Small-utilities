@@ -11,7 +11,9 @@ Randomiza a ordem de maiusculas e minusculas em um texto\n
 Argumentos possíveis:\n\"-h\"/\"--help\" - Exibe esse texto de ajuda."
         );
     } else if args.len() > 1 {
-        for char in args[1].chars() {
+        let text = &args[1];
+
+        for char in text.chars() {
             if char.is_alphabetic() && random() {
                 if char.is_lowercase() {
                     print!("{}", char.to_uppercase());
