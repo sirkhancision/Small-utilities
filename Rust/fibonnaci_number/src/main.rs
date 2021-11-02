@@ -12,46 +12,50 @@ fn main() {
 
     println!("Type the position of the sequence to be printed (max: 186):");
 
-    io::stdin().read_line(&mut n).expect("Error reading n");
-    let n: u128 = n.trim().parse().expect("n isn't a valid integer");
+    io::stdin().read_line(&mut n).expect("error reading n");
+    let n = n.trim();
 
-    if n > MAX {
-        println!("The result of position {} exceeds 128 bits", n);
-    } else {
-        // decide on the type of suffix to use after
-        // the sequence position number
-        let suffix = if n < 4 && n != 0 {
-            if n == 1 {
-                "st"
-            } else if n == 2 {
-                "nd"
-            } else {
-                "rd"
-            }
+    if !n.is_empty() {
+        let n_digit = &n.chars().last().unwrap();
+
+        let n: u128 = n.parse().expect("n isn't a valid integer");
+        let n_digit: u128 = n_digit.to_string().parse().unwrap();
+    
+        if n > MAX {
+            println!("The result of position {} exceeds 128 bits", n);
         } else {
-            "th"
-        };
-
-        if n < 2 {
-            fib_number = n;
-        } else {
-            // increment variable
-            let i = 2;
-
-            for i in i..=n {
-                fib_number = n_minus.0 + n_minus.1;
-
-                if i % 2 == 0 {
-                    n_minus.0 += n_minus.1;
+            // decide on the type of suffix to use after
+            // the sequence position number
+            let suffix = if n_digit < 4 && n_digit != 0 {
+                if n_digit == 1 {
+                    "st"
+                } else if n_digit == 2 {
+                    "nd"
                 } else {
-                    n_minus.1 += n_minus.0;
+                    "rd"
+                }
+            } else {
+                "th"
+            };
+
+            if n < 2 {
+                fib_number = n;
+            } else {
+                for i in 2..=n {
+                    fib_number = n_minus.0 + n_minus.1;
+
+                    if i % 2 == 0 {
+                        n_minus.0 += n_minus.1;
+                    } else {
+                        n_minus.1 += n_minus.0;
+                    }
                 }
             }
-        }
 
-        println!(
-            "Fibonnaci number at {}{} position: {}",
-            n, suffix, fib_number
-        )
+            println!(
+                "Fibonnaci number at {}{} position: {}",
+                n, suffix, fib_number
+            );
+        }
     }
 }
