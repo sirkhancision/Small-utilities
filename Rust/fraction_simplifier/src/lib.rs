@@ -73,4 +73,8 @@ impl Fraction {
             self.denominator.unwrap()
         );
     }
+
+    pub fn print_fraction_quiet(self) {
+        println!("{}/{}", self.numerator.unwrap(), self.denominator.unwrap());
+    }
 }
