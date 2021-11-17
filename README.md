@@ -21,3 +21,5 @@ These are simply some small programs that I wrote to perform basic actions on my
 > `linux-ver.sh`: Bash script to notify you when a new Linux release gets uploaded to Github.
 
 > `update-citra-nightly.sh`: Bash script to download the newest Citra Nightly linux release on Github.
+
+> `kegel_routine.sh`: Bash script with multiple cronometers for a Kegel exercises routine.
