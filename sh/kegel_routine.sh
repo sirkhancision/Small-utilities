@@ -17,7 +17,7 @@ function exercise_countdown() {
 
         echo -en "${GREEN}TIME LEFT FOR EXERCISE:\n"
 
-        for j in {30..0}; do
+        for j in {30..1}; do
             echo -en "${CLEAR_LINE}${CYAN}$j seconds ${DEFAULT}| \
 ${RED}$(elapsed_time $START)${CLEAR_LINE}"
             sleep 1
@@ -30,7 +30,7 @@ ${RED}$(elapsed_time $START)${CLEAR_LINE}"
 function relax_countdown() {
     echo -en "\n${GREEN}TIME TO RELAX BEFORE EXERCISE:\n"
 
-    for i in {15..0}; do
+    for i in {15..1}; do
         echo -en "${CLEAR_LINE}${CYAN}$i seconds ${DEFAULT}| \
 ${RED}$(elapsed_time $START)${CLEAR_LINE}"
         sleep 1
