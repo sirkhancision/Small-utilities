@@ -22,4 +22,6 @@ These are simply some small programs that I wrote to perform basic actions on my
 
 > `update-citra-nightly.sh`: Bash script to download the newest Citra Nightly linux release on Github.
 
-> `kegel_routine.sh`: Bash script with multiple cronometers for a Kegel exercises routine.
+> `DEPRECATED: kegel_routine.sh`: Bash script with multiple cronometers for a Kegel exercises routine.
+
+> `kegel_routine.rs`: Rust version of above program, with higher efficiency and just better overall.
