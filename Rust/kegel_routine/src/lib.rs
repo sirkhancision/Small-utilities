@@ -8,7 +8,7 @@ pub mod countdown {
         let mut elapsed = -1;
         let mut color = StandardStream::stdout(ColorChoice::Always);
 
-        for i in 1..=4 {
+        for i in 1..=60 {
             if i % 2 != 0 {
                 // Resetting color
                 if let Err(e) = color.reset() {
