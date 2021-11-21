@@ -21,23 +21,70 @@ pub struct Fraction {
 }
 
 impl Fraction {
+    fn parse_fraction(mut fraction_string: (String, String)) -> Result<(i128, i128), &'static str> {
+        let longer: i32 = if fraction_string.0.len() > fraction_string.1.len() {
+            fraction_string
+                .0
+                .len()
+                .to_owned()
+                .to_string()
+                .parse()
+                .unwrap()
+        } else {
+            fraction_string
+                .1
+                .len()
+                .to_owned()
+                .to_string()
+                .parse()
+                .unwrap()
+        };
+
+        {
+            let mut numerator = fraction_string.0.trim().chars();
+            let mut denominator = fraction_string.1.trim().chars();
+
+            // Shortens the number by removing mutual zeros at the right
+            for _i in 0..=(longer as i32) {
+                if numerator.to_owned().last().unwrap() == '0'
+                    && denominator.to_owned().last().unwrap() == '0'
+                {
+                    numerator.next_back();
+                    denominator.next_back();
+                }
+            }
+
+            fraction_string = (
+                numerator.as_str().to_string(),
+                denominator.as_str().to_string(),
+            );
+        }
+
+        let numerator_result = match fraction_string.0.parse() {
+            Err(_e) => return Err("numerador não é inteiro"),
+            Ok(n) => n,
+        };
+
+        let denominator_result = match fraction_string.1.parse() {
+            Err(_e) => return Err("denominador não é inteiro"),
+            Ok(0) => return Err("divisão por zero não permitida"),
+            Ok(n) => n,
+        };
+
+        Ok((numerator_result, denominator_result))
+    }
+
     pub fn new(fracao: &str) -> Result<Fraction, &str> {
         for (i, char) in fracao.chars().enumerate() {
             if char == '/' {
-                let numerator_result = match fracao[..i].parse() {
-                    Err(_e) => return Err("numerador não é inteiro"),
-                    Ok(n) => n,
-                };
-
-                let denominator_result = match fracao[i + 1..].parse() {
-                    Err(_e) => return Err("denominador não é inteiro"),
-                    Ok(0) => return Err("divisão por zero não permitida"),
-                    Ok(n) => n,
-                };
+                let fraction = Fraction::parse_fraction((
+                    fracao[..i].to_string(),
+                    fracao[i + 1..].to_string(),
+                ))?;
 
                 return Ok(Fraction {
-                    numerator: Some(numerator_result),
-                    denominator: Some(denominator_result),
+                    numerator: Some(fraction.0),
+                    denominator: Some(fraction.1),
                 });
             }
         }
