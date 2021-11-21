@@ -46,14 +46,14 @@ impl Fraction {
 
     // Simplifies the fraction down to its smaller factors
     pub fn simplify(self) -> Fraction {
-        let greater = if &self.numerator > &self.denominator {
+        let lower = if &self.numerator < &self.denominator {
             self.numerator.unwrap()
         } else {
             self.denominator.unwrap()
         };
         let mut fraction = self;
 
-        for i in 2..greater {
+        for i in 2..=lower {
             // Checks if they're divisible by i, from 2 to the greatest value of the fraction
             while fraction.numerator.unwrap() % i == 0 && fraction.denominator.unwrap() % i == 0 {
                 fraction.numerator.replace(fraction.numerator.unwrap() / i);

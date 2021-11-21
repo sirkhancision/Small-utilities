@@ -49,10 +49,10 @@ pub mod countdown {
         }
 
         for i in (1..=start_time).rev() {
-            println!("{} seconds | {}", i, super::elapsed_time(elapsed));
+            println!("{} second(s) | {}", i, super::elapsed_time(elapsed));
             thread::sleep(time::Duration::from_secs(1));
             if i != 1 {
-                print!("{}", CLEAR_LINE)
+                print!("{}", CLEAR_LINE);
             };
         }
     }
