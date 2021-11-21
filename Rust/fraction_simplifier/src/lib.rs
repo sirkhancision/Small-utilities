@@ -13,6 +13,16 @@ mod tests {
             (simplified.numerator, simplified.denominator)
         );
     }
+
+    #[test]
+    fn shortening_of_10_multiples() {
+        let fraction_1 = ("335000000000", "550000000");
+        let fraction_2 = ("33500", "55");
+        let shortened =
+            Fraction::shorten_mul_10(fraction_1.0, fraction_1.1, fraction_1.1.len() as i32);
+
+        assert_eq!(fraction_2, shortened);
+    }
 }
 
 pub struct Fraction {
@@ -21,44 +31,17 @@ pub struct Fraction {
 }
 
 impl Fraction {
-    fn parse_fraction(mut fraction_string: (String, String)) -> Result<(i128, i128), &'static str> {
+    // Parses the numerator and denominator as strings, and does operations to check if they're
+    // valid integers and to make the simplification proccess faster
+    fn parse_fraction(fraction_string: (String, String)) -> Result<(i128, i128), &'static str> {
         let longer: i32 = if fraction_string.0.len() > fraction_string.1.len() {
-            fraction_string
-                .0
-                .len()
-                .to_owned()
-                .to_string()
-                .parse()
-                .unwrap()
+            fraction_string.0.len() as i32
         } else {
-            fraction_string
-                .1
-                .len()
-                .to_owned()
-                .to_string()
-                .parse()
-                .unwrap()
+            fraction_string.1.len() as i32
         };
 
-        {
-            let mut numerator = fraction_string.0.trim().chars();
-            let mut denominator = fraction_string.1.trim().chars();
-
-            // Shortens the number by removing mutual zeros at the right
-            for _i in 0..=(longer as i32) {
-                if numerator.to_owned().last().unwrap() == '0'
-                    && denominator.to_owned().last().unwrap() == '0'
-                {
-                    numerator.next_back();
-                    denominator.next_back();
-                }
-            }
-
-            fraction_string = (
-                numerator.as_str().to_string(),
-                denominator.as_str().to_string(),
-            );
-        }
+        let fraction_string =
+            Fraction::shorten_mul_10(fraction_string.0.trim(), fraction_string.1.trim(), longer);
 
         let numerator_result = match fraction_string.0.parse() {
             Err(_e) => return Err("numerador não é inteiro"),
@@ -66,14 +49,39 @@ impl Fraction {
         };
 
         let denominator_result = match fraction_string.1.parse() {
-            Err(_e) => return Err("denominador não é inteiro"),
             Ok(0) => return Err("divisão por zero não permitida"),
             Ok(n) => n,
+            Err(_e) => return Err("denominador não é inteiro"),
         };
 
         Ok((numerator_result, denominator_result))
     }
 
+    // Shortens numbers if they're both divisible by 10
+    fn shorten_mul_10<'a>(
+        numerator: &'a str,
+        denominator: &'a str,
+        longer: i32,
+    ) -> (&'a str, &'a str) {
+        let mut numerator = numerator.chars();
+        let mut denominator = denominator.chars();
+
+        if !(numerator.as_str().is_empty() || denominator.as_str().is_empty()) {
+            if denominator.as_str() != "0" {
+                for _i in 0..=longer {
+                    if numerator.to_owned().last().unwrap() == '0'
+                        && denominator.to_owned().last().unwrap() == '0'
+                    {
+                        numerator.next_back();
+                        denominator.next_back();
+                    }
+                }
+            }
+        }
+        (numerator.as_str(), denominator.as_str())
+    }
+
+    // Creates a new fraction out of a string slice
     pub fn new(fracao: &str) -> Result<Fraction, &str> {
         for (i, char) in fracao.chars().enumerate() {
             if char == '/' {
@@ -113,6 +121,7 @@ impl Fraction {
         fraction
     }
 
+    // Prints the simplified fraction normally
     pub fn print_fraction(self) {
         println!(
             "Fração simplificada: {}/{}",
@@ -121,6 +130,7 @@ impl Fraction {
         );
     }
 
+    // Prints only the resulting simplified fraction, without additional text
     pub fn print_fraction_quiet(self) {
         println!("{}/{}", self.numerator.unwrap(), self.denominator.unwrap());
     }
