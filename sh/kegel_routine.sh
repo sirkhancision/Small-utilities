@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+set -e
 
 START=$SECONDS
 CLEAR_LINE="\e[K\r"
@@ -18,7 +20,7 @@ function exercise_countdown() {
         echo -en "${GREEN}TIME LEFT FOR EXERCISE:\n"
 
         for j in {30..1}; do
-            echo -en "${CLEAR_LINE}${CYAN}$j seconds ${DEFAULT}| \
+            echo -en "${CLEAR_LINE}${CYAN}$j seconds ${DEFAULT} | \
 ${RED}$(elapsed_time $START)${CLEAR_LINE}"
             sleep 1
         done
@@ -31,19 +33,21 @@ function relax_countdown() {
     echo -en "\n${GREEN}TIME TO RELAX BEFORE EXERCISE:\n"
 
     for i in {15..1}; do
-        echo -en "${CLEAR_LINE}${CYAN}$i seconds ${DEFAULT}| \
+        echo -en "${CLEAR_LINE}${CYAN}$i seconds ${DEFAULT} | \
 ${RED}$(elapsed_time $START)${CLEAR_LINE}"
         sleep 1
     done
 }
 
 function elapsed_time() {
-    elapsed=$((SECONDS - $1))
+    ELAPSED=$((SECONDS - $1))
     # 2700 = 45 minutes in seconds
     # n/27 = n/2700 * 100 (percentage)
-    percentage=$(bc <<< "scale=1; $elapsed/27")
+    PERCENTAGE=$(bc <<< "scale=1; $ELAPSED/27")
 
-    echo -en "$(date -ud "@$elapsed" +'%M:%S') - 45:00 ($percentage% TOTAL)\n"
+    echo -en "$(date -ud "@$ELAPSED" +'%M:%S') - 45:00 ($PERCENTAGE% TOTAL)\n"
 }
 
 exercise_countdown
+
+exit 0

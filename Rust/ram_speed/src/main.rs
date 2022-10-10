@@ -7,19 +7,19 @@ fn main() {
     io::stdin()
         .read_line(&mut cl)
         .expect("Erro ao ler Ciclo-CL");
-    
+
     let cl: f64 = cl
         .trim()
         .parse()
         .expect("ciclo cl dado não é um número inteiro");
-    
+
     let mut mhz = String::new();
     println!("Agora, digite o valor do MHz-RAM:");
 
     io::stdin()
         .read_line(&mut mhz)
         .expect("Erro ao ler MHz-RAM");
-    
+
     let mhz: f64 = mhz
         .trim()
         .parse()

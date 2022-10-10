@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
             puts("Calculadora de Clock Speed de memórias RAM\n"
             "Formato: Ciclo-CL MHz-RAM (16 3200)\n\n"
             "Argumentos possíveis: \"-h\"/\"--help\" - Exibe esse texto de ajuda.");
-            
+
             return 0;
     } else if (argc < 3) {
         printf("Expressão incompleta ou formato incorreto.\n");

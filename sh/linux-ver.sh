@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 # test if there's an internet connection
-if [[ "$(ping -qc 1 google.com | wc -l)" < 2 ]]; then
+if [[ "$(ping -qc 1 google.com | wc -l)" -lt 2 ]]; then
 	echo "No internet connection"
 	exit 1
 fi
@@ -27,7 +27,7 @@ fi
 # in case the file holding the latest version name doesn't exist, it's created
 # if the latest release also doesn't match the current tag name, it overwrites its value
 # at last, if none of these apply, the script is ended
-if [[ ((! -f "$tmpfile")) || ((-f $tmpfile && "$(cat $tmpfile)" != "$tag")) ]]; then
+if [[ ((! -f "$tmpfile")) || ((-f $tmpfile && "$(cat "$tmpfile")" != "$tag")) ]]; then
 	echo "$tag" > "$tmpfile"
 else
 	exit 2

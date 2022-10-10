@@ -14,10 +14,10 @@ static void rndcase(int input) {
 	/* maybe turn upper-case into lower-case */
 	else if (random == 1 && isupper(input))
 		input = tolower(input);
-		
+
 	if (putchar(input) == EOF) {
 		printf("Falha ao imprimir caractere.\n");
-	} 
+	}
 }
 
 int main(int argc, char* argv[]) {
@@ -34,14 +34,14 @@ int main(int argc, char* argv[]) {
 			"Randomiza a ordem de maiusculas e minusculas em um arquivo de texto\n\n"
 			"Argumentos possíveis:\n\"-h\"/\"--help\" - Exibe esse texto de ajuda.\n"
 			"\"-t\"/\"--stdin\" - Recebe a entrada do teclado (não como parâmetro), ao invés de por um arquivo.");
-			
+
 			return 0;
 	} else if (strcmp(argv[1], "-t") == 0 ||
 		strcmp(argv[1], "--stdin") == 0) {
 			/* Input from stdin */
 			while ((c = getchar()) != EOF)
 				rndcase(c);
-			
+
 			return 0;
 	}
 
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
 
 	while ((c = fgetc(arquivo)) != EOF)
 		rndcase(c);
-	
+
 	if (fclose(arquivo) == EOF) {
 		printf("Falha ao fechar o arquivo.\n");
 		exit(EXIT_FAILURE);

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Edited from update-proton-ge
 
@@ -6,33 +6,34 @@
 set -e
 
 # Constants
-REPO=citra-emu/citra-nightly
-LATEST_RELEASE_URL=https://github.com/$REPO/releases/latest
-CITRA_DIR=~/Downloads/Citra
-autoInstall=false
+REPO="citra-emu/citra-nightly"
+LATEST_RELEASE_URL="https://github.com/$REPO/releases/latest"
+CITRA_DIR="$HOME/Downloads/Citra"
+AUTOINSTALL=false
 
 # Find latest version tag
-release_url=$(curl -Ls -o /dev/null -w %{url_effective} $LATEST_RELEASE_URL)
-version=${release_url##*/}
-echo Found latest version: Citra-$version
+RELEASE_URL=$(curl -Ls -o /dev/null -w %"{url_effective}" $LATEST_RELEASE_URL)
+VERSION=${RELEASE_URL##*/}
+echo Found latest version: Citra-"$VERSION"
 
 # Determine download URL and install path
-filename=$(curl -s https://api.github.com/repos/$REPO/releases/latest | grep "name.*.tar.xz" | cut -d : -f 2,3 | tr -d '\", ')
-download_url=https://github.com/$REPO/releases/download/$version/$filename
-install_dir=$CITRA_DIR/$(echo $filename | cut -c 1-28)
+FILENAME=$(curl -s https://api.github.com/repos/$REPO/releases/latest | \
+    perl -nle 'print for /^[[:blank:]]+"name":[[:blank:]]"(citra-linux-.+\.tar\.xz)",$/')
+VERSION_NAME=$(perl -nle 'print for /(^citra-linux-.+)\.tar\.xz$/' <<< "$FILENAME")
+DOWNLOAD_URL="https://github.com/$REPO/releases/download/$VERSION/$FILENAME"
+INSTALL_DIR="$CITRA_DIR/$VERSION_NAME"
 
 # Exit if already installed
-if [ -d $install_dir ]; then
-	echo Already installed at: $install_dir
-	exit
+if [ -d "$INSTALL_DIR" ]; then
+	echo Already installed at: "$INSTALL_DIR"
 fi
 
 # Functions
 
 # (In case autoinstall if off) Asks if you want to download/install the newest release
 InstallationPrompt() {
-	if [ "$autoInstall" = true ]; then
-		if [ ! -d "$CITRA_DIR"/Citra-"$version" ]; then
+	if [ "$AUTOINSTALL" = true ]; then
+		if [ ! -d "$CITRA_DIR"/Citra-"$VERSION" ]; then
 			InstallCitraNightly
 		fi
 	else
@@ -42,7 +43,7 @@ InstallationPrompt() {
 			Wanttodelete
 		else
 			echo "Operation canceled"
-		Wanttodelete
+            Wanttodelete
 		fi
 	fi
 }
@@ -50,8 +51,10 @@ InstallationPrompt() {
 # If Citra directory doesn't exist under Downloads, it is created
 # Use curl and bsdtar to download and extract release to Citra directory
 InstallCitraNightly() {
-	if [[ ! -d "$CITRA_DIR" ]]; then mkdir -p $CITRA_DIR; fi
-	curl -Lo /dev/stdout $download_url | bsdtar -xf /dev/stdin --directory $CITRA_DIR
+	if [[ ! -d "$CITRA_DIR" ]]; then
+        mkdir -p "$CITRA_DIR";
+    fi
+	curl -Lo /dev/stdout "$DOWNLOAD_URL" | bsdtar -xf /dev/stdin --directory "$CITRA_DIR"
 }
 
 # Check if there are other Citra Nightly versions installed
@@ -66,29 +69,34 @@ Wanttodelete() {
 # Show which versions are installed, then asks which you want to delete
 DeleteCitraCheck() {
 	echo "Installed runners:"
-	installed_versions=($(ls -d "$CITRA_DIR"/*/))
-	for((i=0;i<${#installed_versions[@]};i++)); do
-	inumber=$(("$i" + 1))
-	folder=$(echo "${installed_versions[i]}" | rev | cut -d/ -f2 | rev)
-	echo "$inumber. $folder"
+    mapfile -t INSTALLED_VERSIONS < <(ls -d "$CITRA_DIR"/*/)
+	for((i=0;i<${#INSTALLED_VERSIONS[@]};i++)); do
+        INUMBER=$(("$i" + 1))
+        FOLDER=$(echo "${INSTALLED_VERSIONS[i]}" | rev | cut -d/ -f2 | rev)
+
+        if [ "$FOLDER" == "$VERSION_NAME" ]; then
+            echo "$INUMBER. $FOLDER [newest]"
+        else
+            echo "$INUMBER. $FOLDER"
+        fi
 	done
 	echo ""
-	echo -n "Please choose an option to remove [1-${#installed_versions[@]}]:"
-	read -ra option_remove
+	echo -n "Please choose an option to remove [1-${#INSTALLED_VERSIONS[@]}]:"
+	read -ra OPTION_REMOVE
 
-	case "$option_remove" in
-	[1-9])
-	if (( $option_remove <= ${#installed_versions[@]} )); then
-		remove_option=${installed_versions[$option_remove -1]}
-		echo "removing $remove_option"
-		DeleteCitraPrompt
-	else
-		echo "That is not a valid option"
-	fi
-	;;
-	*)
-	echo "Not a valid option"
-	;;
+	case "$OPTION_REMOVE" in
+        [1-9])
+            if (( OPTION_REMOVE <= ${#INSTALLED_VERSIONS[@]} )); then
+                REMOVE_OPTION=${INSTALLED_VERSIONS[$OPTION_REMOVE-1]}
+                echo "removing $REMOVE_OPTION"
+                DeleteCitraPrompt
+            else
+                echo "That is not a valid option"
+            fi
+            ;;
+        *)
+            echo "Not a valid option"
+            ;;
 	esac
 }
 
@@ -105,9 +113,8 @@ DeleteCitraPrompt() {
 
 # Actually deleting the damn thing
 DeleteCitra() {
-	rm -rf $remove_option
-	echo "Removed $remove_option"
-	installComplete=true
+	rm -rf "$REMOVE_OPTION"
+	echo "Removed $REMOVE_OPTION"
 	Wanttodelete
 }
 
@@ -115,4 +122,6 @@ DeleteCitra() {
 InstallationPrompt
 
 # When installation is actually done
-echo Installation complete, at: $install_dir
+echo Installation complete, at: "$INSTALL_DIR"
+
+exit 0

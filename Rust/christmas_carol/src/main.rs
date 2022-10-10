@@ -1,6 +1,8 @@
 fn main() {
     let days = [
-        "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eight", "ninth", "tenth", "eleventh", "twelfth"];
+        "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eight", "ninth",
+        "tenth", "eleventh", "twelfth",
+    ];
 
     let lyrics = [
         "partridge in a pear tree",

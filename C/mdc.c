@@ -4,7 +4,7 @@
 
 static unsigned long mdc(unsigned long x, unsigned long y) {
     unsigned long tmp;
-    
+
     if (y > x) {
         /* Ordena de forma que x seja maior que y,
         caso o valor de y seja maior que x */

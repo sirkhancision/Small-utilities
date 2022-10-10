@@ -8,7 +8,7 @@ typedef struct {
 
 static FRACAO simplify(FRACAO input) {
     int i;
-    
+
     for (i = 2; i <= 9; i++) {
         /* Checks if they're divisible by i, from 2 to 9 */
         while ((input.numerator % i == 0) &&
@@ -17,21 +17,21 @@ static FRACAO simplify(FRACAO input) {
                 input.denominator /= i;
         }
     }
-    
+
     return input;
 }
 
 int main(int argc, char* argv[]) {
     FRACAO fraction;
     char* endptr;
-    
+
     /* Implementador de ajuda no programa */
     if (argc > 1 && (strcmp(argv[1], "-h") == 0 ||
         strcmp(argv[1], "--help") == 0)) {
             puts("Simplificador de frações\n"
             "Formato de uso: x / y (Exemplo: 10 / 5)\n\n"
             "Argumentos possíveis: \"-h\"/\"--help\" - Exibe esse texto de ajuda.");
-            
+
             return 0;
     } else if (argc < 4) {
         printf("Expressão incompleta ou formato incorreto.\n");

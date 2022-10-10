@@ -20,7 +20,7 @@ fn main() {
 
         let n: u128 = n.parse().expect("n isn't a valid integer");
         let n_digit: u128 = n_digit.to_string().parse().unwrap();
-    
+
         if n > MAX {
             println!("The result of position {} exceeds 128 bits", n);
         } else {
