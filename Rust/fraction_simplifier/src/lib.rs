@@ -63,22 +63,17 @@ impl Fraction {
         denominator: &'a str,
         longer: i32,
     ) -> (&'a str, &'a str) {
-        let mut numerator = numerator.chars();
-        let mut denominator = denominator.chars();
+        let mut numerator_result = numerator;
+        let mut denominator_result = denominator;
 
-        if !(numerator.as_str().is_empty() || denominator.as_str().is_empty()) {
-            if denominator.as_str() != "0" {
-                for _i in 0..=longer {
-                    if numerator.to_owned().last().unwrap() == '0'
-                        && denominator.to_owned().last().unwrap() == '0'
-                    {
-                        numerator.next_back();
-                        denominator.next_back();
-                    }
-                }
+        for _i in 1..=longer {
+            if numerator_result.ends_with('0') && denominator_result.ends_with('0') {
+                numerator_result = &numerator_result[..numerator_result.len() - 1];
+                denominator_result = &denominator_result[..denominator_result.len() - 1];
             }
         }
-        (numerator.as_str(), denominator.as_str())
+
+        (numerator_result, denominator_result)
     }
 
     // Creates a new fraction out of a string slice
